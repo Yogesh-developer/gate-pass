@@ -1,70 +1,166 @@
-# Getting Started with Create React App
+# Gate Pass – Visitor Safety Questionnaire
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a bilingual/multilingual web application used at the Allow Wheel Company to collect visitor safety declarations before they enter the site. Visitors can complete a detailed safety questionnaire, capture a photo for their badge, and generate a printable checklist/waiver that can be stored or shared with security personnel.
+
+The application is built with Vite + React and is deployed on Netlify.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Environment Setup](#environment-setup)
+- [Available Scripts](#available-scripts)
+- [Build Outputs](#build-outputs)
+- [Deployment](#deployment)
+- [Project Structure](#project-structure)
+- [Customization](#customization)
+- [License](#license)
+
+---
+
+## Features
+
+- **Visitor Questionnaire** – 17 safety questions grouped by topic to confirm visitor compliance.
+- **Multi-language support** – English, Hindi, and Marathi content via `translations` in `src/questionnaireData.js`.
+- **Animated SVG icons** – Each question has a custom animated icon (`src/components/QuestionIcons.jsx`).
+- **Photo capture** – Webcam-based photo capture for visitor badges using `react-webcam`.
+- **Real-time progress** – Completion bar and validation ensure all questions are answered.
+- **Printable checklist** – Generates a formatted checklist ready for printing or PDF export.
+- **Downloadable PDF** – Uses `html2canvas` and `jspdf` to export a signed declaration.
+- **Responsive design** – Optimized for desktop, tablet, and mobile, including print layout styling.
+
+---
+
+## Tech Stack
+
+- **Frontend**: React 18 with Vite 5
+- **Styling**: CSS Modules / standard CSS
+- **Utilities**: `react-webcam`, `html2canvas`, `jspdf`, `react-to-print`
+- **Build & Tooling**: Vite, ESLint
+- **Deployment**: Netlify
+
+---
+
+## Environment Setup
+
+### Prerequisites
+
+- Node.js 18.0+ (recommended)
+- npm 9+
+
+### Installation
+
+```bash
+git clone https://github.com/Yogesh-developer/gate-pass.git
+cd gate-pass
+npm install
+```
+
+If you need environment variables, create `.env` files (see `.example.env` if available). By default no special keys are required.
+
+---
 
 ## Available Scripts
 
-In the project directory, you can run:
+Run these commands from the project root:
 
-### `npm start`
+### `npm run dev`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Starts the local development server on [http://localhost:5173](http://localhost:5173). Hot module replacement (HMR) is enabled.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the production bundle into the `dist/` directory. The output is optimized and ready for deployment.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm run preview`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Serves the production build locally. Useful to verify the `dist/` output before deploying.
 
-### `npm run eject`
+### `npm run lint`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Runs ESLint checks.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Build Outputs
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- The production build lives in `dist/` (already ignored via `.gitignore`).
+- Static assets (logos) are under `public/`.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Deployment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Netlify (recommended)
 
-### Code Splitting
+The project includes `netlify.toml` for build configuration. Follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **Build** the project locally (optional but recommended):
+   ```bash
+   npm run build
+   ```
+2. **Deploy via Netlify CLI**:
+   ```bash
+   netlify deploy --prod
+   ```
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+3. The site is currently live at `https://gwpl-safety-questionnaire.netlify.app`.
 
-### Analyzing the Bundle Size
+Alternatively, connect the GitHub repository in Netlify to trigger builds automatically on push.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Other Hosts
 
-### Making a Progressive Web App
+Any static host (Vercel, Firebase Hosting, GitHub Pages) can serve the `dist/` directory. Update build/publish commands according to the platform.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+gate-pass/
+├── public/
+│   ├── enventoLab.png
+│   └── gwpl-logo.png
+├── src/
+│   ├── components/
+│   │   └── QuestionIcons.jsx
+│   ├── Questionaries.jsx
+│   ├── Questionaries.css
+│   ├── questionnaireData.js
+│   ├── main.jsx
+│   └── ...
+├── netlify.toml
+├── vite.config.mjs
+└── README.md
+```
 
-### Deployment
+Key files:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- `src/Questionaries.jsx` – Main questionnaire component.
+- `src/questionnaireData.js` – Question copy, translations, and configuration.
+- `src/components/QuestionIcons.jsx` – Animated SVG icons.
+- `src/Questionaries.css` – Styling for the questionnaire and print layout.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Customization
+
+- **Questions & Sections**: Modify `questionnaireData.js` to change text, translations, or structure.
+- **Languages**: Update the `translations` object for additional languages or to change strings.
+- **Branding**: Replace assets in `public/` and tweak CSS classes (`logo-shield`, `.powered-by-footer`, etc.).
+- **Print layout**: Adjust print-specific styling in `Questionaries.css` under `@media print` blocks.
+
+---
+
+## License
+
+This project is proprietary to Allow Wheel Company. All rights reserved. Contact the project maintainers for reuse permissions.
+
+---
+
+## Support
+
+For issues or enhancements, open a ticket in the repository or contact the maintainers directly.
